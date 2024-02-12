@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="skiResort:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/skiResort</output-path>
+    <root id="archive" name="skiResort_war.war">
+      <element id="artifact" artifact-name="skiResort:war exploded" />
+    </root>
+  </artifact>
+</component>
