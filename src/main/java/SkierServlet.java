@@ -73,9 +73,9 @@ public class SkierServlet extends HttpServlet {
             response.getWriter().write("resortID should be int type");
             return;
         }
-        if (Integer.parseInt(urlParts[1]) <= 0) {
+        if (Integer.parseInt(urlParts[1]) < 1 || Integer.parseInt(urlParts[1]) > 10) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.getWriter().write("resortID should be positive");
+            response.getWriter().write("resortID should be between 1 and 10");
             return;
         }
         if (!urlParts[2].equals("seasons")) {
@@ -83,9 +83,9 @@ public class SkierServlet extends HttpServlet {
             response.getWriter().write("should be 'seasons' here");
             return;
         }
-        if (!isParsable(urlParts[3])) {
+        if (!isParsable(urlParts[3]) || Integer.parseInt(urlParts[3]) != 2024) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.getWriter().write("seasonID should be int type");
+            response.getWriter().write("seasonID should be year 2024");
             return;
         }
         if (Integer.parseInt(urlParts[3]) < 0) {
@@ -98,16 +98,16 @@ public class SkierServlet extends HttpServlet {
             response.getWriter().write("should be 'days' here");
             return;
         }
-        if (!isParsable(urlParts[5])) {
+        if (!isParsable(urlParts[5]) || Integer.parseInt(urlParts[5]) != 1) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.getWriter().write("dayID should be int type");
+            response.getWriter().write("dayID should be 1");
             return;
         }
-        if (Integer.parseInt(urlParts[5]) < 1 || Integer.parseInt(urlParts[5]) > 366) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.getWriter().write("min dayID is 1 and max dayID is 366");
-            return;
-        }
+//        if (Integer.parseInt(urlParts[5]) < 1 || Integer.parseInt(urlParts[5]) > 366) {
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//            response.getWriter().write("min dayID is 1 and max dayID is 366");
+//            return;
+//        }
         if (!urlParts[6].equals("skiers")) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().write("should be 'skiers' here");
@@ -118,9 +118,9 @@ public class SkierServlet extends HttpServlet {
             response.getWriter().write("skierID should be int type");
             return;
         }
-        if (Integer.parseInt(urlParts[7]) < 0) {
+        if (Integer.parseInt(urlParts[7]) < 1 || Integer.parseInt(urlParts[7]) > 100000) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.getWriter().write("skierID should be non-negative");
+            response.getWriter().write("skierID should be between 1 and 100000");
             return;
         }
 
