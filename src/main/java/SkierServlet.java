@@ -140,13 +140,24 @@ public class SkierServlet extends HttpServlet {
 //        String myJson = gson.toJson(data);
 //        System.out.println(myJson.getClass());
         try {
-            int a = jsonObject.get("time").getAsInt();
-            int b = jsonObject.get("liftID").getAsInt();
+            int time = jsonObject.get("time").getAsInt();
+            int liftID = jsonObject.get("liftID").getAsInt();
 
-            if ( a < 0 || b < 0 ) {
+            if ( time < 0 || liftID < 0 ) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("time and liftID should be greater than" +
                         " or equal to 0");
+                return;
+            }
+
+            if (time < 1 || time > 360) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("time should be between 1 and 360");
+                return;
+            }
+            if (liftID < 1 || liftID > 40) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("liftID should be between 1 and 40");
                 return;
             }
 
