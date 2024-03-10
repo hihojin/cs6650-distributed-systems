@@ -1,4 +1,7 @@
-import com.google.gson.Gson;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Channel;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -6,9 +9,33 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeoutException;
 
 public class SkierServlet extends HttpServlet {
+    private RMQChannelPool pool;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+//        String classpath = System.getProperty("java.class.path");
+//        System.out.println("Classpath: " + classpath);
+        try {
+            int QUEUE_SIZE = 30;
+            String HOST = "ec2-35-166-235-163.us-west-2.compute.amazonaws.com";
+            String USERNAME = "admin";
+            String PASSWORD = "password";
+            String VIRTUALHOST = "/";
+            int PORT = 5672;
+            pool = new RMQChannelPool(QUEUE_SIZE, HOST, PORT, USERNAME, PASSWORD, VIRTUALHOST);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("init here");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // testing purpose for now
@@ -167,6 +194,18 @@ public class SkierServlet extends HttpServlet {
             return;
         }
 
+//        try {
+//            Channel chanel = pool.borrowObject();
+//            String queueName = "skiersQueue";
+//            chanel.queueDeclare(queueName, false, false, false, null);
+//            byte[] payLoad = "queue test message".getBytes();
+//            chanel.basicPublish("", queueName, null, payLoad);
+//
+//            pool.returnObject(chanel);
+//        } catch (Exception e) {
+//            System.out.println("not sent");
+//            throw new RuntimeException(e);
+//        }
         response.setStatus(HttpServletResponse.SC_OK);
 
         response.getWriter().write(data);
